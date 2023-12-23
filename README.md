@@ -8,6 +8,7 @@
  - [Conclusion](#Conclusion)
  
 
+![image](https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/4f1b5007-81af-4af3-b1e0-1cbd3fd8bb33)
 
 ## Introduction
 
@@ -134,3 +135,200 @@ warnings.warn("thisnwill not show")
 df = pd.read_csv("adult_eda.csv")
 df.head(5)
 ```
+Try to understand what the data looks like? What are types of the features? Are there any missing values? Do I need to eliminate some features?
+
+```
+df.shape
+df.info()
+df.describe()
+df.describe().T
+df.isna().sum()
+df.isna().sum()[df.isna().sum() > 0]
+
+# Look at the value counts of columns that have object datatype and replace '?' like values with 'Unknown' word.
+df.sample(10)
+df.select_dtypes(include= "object")
+df.select_dtypes(include= "object").describe().T
+df["workclass"].value_counts()
+for col in df.select_dtypes(include = "object"):
+    print(col)
+    print("***")
+    print(df[col].value_counts())
+    print("***********")
+
+df.isin(["?"]).sum()
+df.workclass.replace("?", "Unknown")
+df.workclass.value_counts()
+
+# df.workclass.replace("?", "Unknown", inplace = True)
+df.workclass = df.workclass.replace("?", "Unknown")
+df.workclass.value_counts()
+df.occupation.replace("?", "Unknown").sample(25)
+df.occupation.replace("?", "Unknown", inplace= True)
+df["native-country"].replace("?", "Unknown", inplace= True)
+# df.replace({"?": "Unknown", "!": "aa"})  If there is more than one we need dict format
+
+df.relationship.value_counts()
+df.relationship.value_counts(dropna=False)
+
+# Do education and education_num columns hold similar information?
+# If so drop the appropriate choice between them.
+df.education.value_counts(dropna=False)
+df["education-num"].value_counts(dropna=False)
+df.groupby("education")["education-num"].value_counts(dropna=False)
+df.drop("education-num", axis= 1)
+
+df.head()
+df.drop("education-num", axis= 1, inplace = True)
+
+# Impute missing value in relationship column with "Unmaried".
+# Also replace "Not-in-family", "Other-relative" values in this column with "Unmaried"?
+
+df.relationship.value_counts(dropna=False)
+df["marital-status"].value_counts(dropna=False)
+df.groupby("relationship")["marital-status"].value_counts(dropna=False)
+df.relationship.replace(["Not-in-family", "Other-relative", np.nan ], "Unmarried").sample(25)
+df.relationship.replace(["Not-in-family", "Other-relative", np.nan ], "Unmarried", inplace = True)
+df.relationship.value_counts()
+df.isnull().sum()
+
+# Take a look at correlation between variables and also see if there are some outliers in any of the columns.
+df.corr()
+df.select_dtypes("number").corr()
+df.head(25)
+
+df.salary.replace({"<=50K" : 0, ">50K" : 1})
+df.salary.replace({"<=50K" : 0, ">50K" : 1}, inplace=True)
+df.corr()
+sns.heatmap(data=df.corr(), annot = True, cmap="viridis")
+<img width="633" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/96ec9969-c4ba-48e1-83f0-b6e992356a24">
+
+# find outlier values which extends the upper limit in both age and hours-per-week columns
+# age
+plt.figure(figsize=(10,6))
+plt.subplot(1,2,1)
+sns.boxplot(data=df.age,whis=1.5) #whis=1.5
+plt.subplot(1,2,2)
+sns.histplot(data=df.age,bins= 10);
+
+<img width="725" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/2900e4b2-13b8-4a42-aa19-ab96a693a746">
+
+df[df.age > 78]
+
+# hours-per-week
+plt.figure(figsize=(10,6))
+plt.subplot(1,2,1)
+sns.boxplot(data=df["hours-per-week"],whis=3)
+plt.subplot(1,2,2)
+sns.histplot(data=df["hours-per-week"],bins=30);
+
+
+<img width="664" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/e87c684a-4bd1-4640-b720-824a9d739ce2">
+
+df[df["hours-per-week"] > 79]
+
+df[df["hours-per-week"] > 60][["marital-status","race"]]
+
+# Boxplot and Histplot for all numeric features
+
+index=0
+plt.figure(figsize=(20,10))
+for feature in df.select_dtypes('number').columns:
+    index+=1
+    plt.subplot(2,3,index)
+    sns.boxplot(x=feature,data=df,whis=1.5)
+
+<img width="739" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/1c4665c3-46c7-4d40-bc00-8a8930f4b2ea">
+
+index=0
+plt.figure(figsize=(20,40))
+for feature in df.select_dtypes('number').columns:
+    index+=1
+    plt.subplot(6,2,index)
+    sns.boxplot(x=feature,data=df,whis=3) 
+    index+=1
+    plt.subplot(6,2,index)
+    sns.histplot(x=feature,data=df)
+<img width="714" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/191023b9-0b8b-48f8-9f9a-4ca721877cff"> <img width="731" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/9dd59faf-aee2-411a-8e1b-1b4c2d47fc44">  <img width="724" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/60d7fef8-b5e6-4a35-9848-23aa825614bc">
+
+
+# After looking at the outliers you can drop the rows which actually does not make any sense.
+df[(df.age > 78) & (df["hours-per-week"] > 55)]
+drop_index = df[(df.age > 78) & (df["hours-per-week"] > 55)].index
+drop_index
+df.drop(index = drop_index)
+df.drop(index= drop_index, inplace=True)
+
+# How many of each race are represented in this dataset?
+sns.countplot(x = "race", data=df);
+
+<img width="396" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/5676e89c-0c23-4c20-8fa6-f16479621b50">
+
+#What is the average age of men/women?
+df[df.sex == "Male"]["age"].mean()
+
+df[df.sex == "Female"]["age"].mean()
+
+df.groupby("sex")["age"].mean()
+
+# What is the percentage of people who have a Bachelor's degree?
+df[df.education == "Bachelors"]
+
+df[df.education == "Bachelors"].shape[0]
+
+round(df[df.education == "Bachelors"].shape[0] / len(df) * 100, 2)
+
+# What percentage of people with advanced education (Bachelors, Masters, or Doctorate) make more than 50K?
+
+advance_edu = df[(df.education == "Bachelors") | (df.education == "Masters") | (df.education == "Doctorate")]
+advance_edu
+
+advance_edu[advance_edu.salary == 1]
+
+advance_edu[advance_edu.salary == 1].shape[0] / len(advance_edu) * 100
+
+# What percentage of people without advanced education make more than 50K?
+df[df.education.isin(["Bachelors", "Masters", "Doctorate"])]
+
+not_advance_edu = df[~df.education.isin(["Bachelors", "Masters", "Doctorate"])]
+not_advance_edu
+
+not_advance_edu.salary.value_counts()
+not_advance_edu.salary.value_counts(normalize=True)
+
+not_advance_edu.salary.value_counts(normalize=True)[1] * 100
+
+# What percentage of the people who work the minimum number of hours per week have a salary of >50K?
+df["hours-per-week"].min()
+
+df[df["hours-per-week"] == df["hours-per-week"].min()]
+
+len(df[df["hours-per-week"] == df["hours-per-week"].min()])
+
+df[df["hours-per-week"] == df["hours-per-week"].min()]["salary"].value_counts(normalize = True)[1] * 100
+
+# What country has the highest percentage of people that earn >50K
+df.head()
+
+df["native-country"].nunique()
+
+df.groupby("native-country")["salary"].count()
+
+df[df.salary == 1].groupby("native-country")["salary"].count()
+
+df[df.salary == 1].groupby("native-country")["salary"].count() / df.groupby("native-country")["salary"].count()
+
+(df[df.salary == 1].groupby("native-country")[["salary"]].count() / df.groupby("native-country")[["salary"]].count())
+
+(df[df.salary == 1].groupby("native-country")[["salary"]].count() / df.groupby("native-country")[["salary"]].count()).sort_values("salary",ascending=False)
+
+
+
+
+
+
+
+
+
+
+
