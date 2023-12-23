@@ -112,7 +112,7 @@ This analysis has peeled back layers of socio-economic data, revealing complex i
 
 ## Analysis Notebook
 
-'''
+```
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -130,7 +130,7 @@ pd.options.display.max_columns=100
 import warnings
 warnings.filterwarnings("ignore")
 warnings.warn("thisnwill not show")
-Read data from file
+#Read data from file
 df = pd.read_csv("adult_eda.csv")
 df.head(5)
-'''
+```
