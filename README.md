@@ -109,3 +109,28 @@ From this analysis, several key recommendations emerge:
 ## Conclusion
 
 This analysis has peeled back layers of socio-economic data, revealing complex interplays between education, occupation, marital status, and other factors in determining income. These insights not only enrich our understanding of the economic fabric but also provide actionable directions for policy and societal development.
+
+## Analysis Notebook
+
+'''
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+%matplotlib inline 
+
+plt.rcParams["figure.figsize"]=(10,6)
+sns.set_style("whitegrid")
+pd.set_option("display.float_format", lambda x: '%.2f'  %x)
+
+pd.options.display.max_rows=50
+pd.options.display.max_columns=100
+
+import warnings
+warnings.filterwarnings("ignore")
+warnings.warn("thisnwill not show")
+Read data from file
+df = pd.read_csv("adult_eda.csv")
+df.head(5)
+'''
