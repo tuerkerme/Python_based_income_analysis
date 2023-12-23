@@ -6,6 +6,7 @@
  - [Limitations](#Limitations)
  - [Recommendations](#Recommendations)
  - [Conclusion](#Conclusion)
+ - [Analysis Notebook](#Analysis-Notebook)
  
 
 ![image](https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/4f1b5007-81af-4af3-b1e0-1cbd3fd8bb33)
