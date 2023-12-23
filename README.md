@@ -26,11 +26,15 @@ The methodology employed in this analysis includes:
 ## Data Preparation and Visualization
 
 The data preparation involved:
+
 •	Handling Missing and Placeholder Values: Ensuring accuracy by replacing unknowns in key columns.
+
 •	Data Type Adjustments: Encoding categorical data for nuanced analysis.
 
 Visualizations used include:
+
 •	Correlation Heatmaps: To understand inter-variable relationships.
+
 •	Bar Graphs and Pie Charts: For clear visual representation of categorical variables' distribution.
 
 4.	Data Overview: Using df.info(), I  examined the dataset's structure, including the number of entries, columns, and data types.
