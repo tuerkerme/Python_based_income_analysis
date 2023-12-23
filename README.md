@@ -5,7 +5,7 @@
  - [Findings](#Findings)
  - [Limitations](#Limitations)
  - [Recommendations](#Recommendations)
- - [Limitations](#onclusion)
+ - [Conclusion](#Conclusion)
  
 
 
@@ -105,5 +105,7 @@ From this analysis, several key recommendations emerge:
 2.	Workforce Development Focused on High-Income Occupations: Skill development programs targeting occupations that are correlated with higher incomes could be beneficial.
 3.	Addressing Disparities: The observed disparities across race, gender, and native country highlight the need for targeted interventions to ensure equitable economic opportunities.
 4.	Work-Life Balance Policies: The relationship between longer working hours and higher income underscores the need for policies that promote a healthy work-life balance.
+
+## Conclusion
 
 This analysis has peeled back layers of socio-economic data, revealing complex interplays between education, occupation, marital status, and other factors in determining income. These insights not only enrich our understanding of the economic fabric but also provide actionable directions for policy and societal development.
