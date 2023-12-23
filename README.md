@@ -201,8 +201,10 @@ df.salary.replace({"<=50K" : 0, ">50K" : 1})
 df.salary.replace({"<=50K" : 0, ">50K" : 1}, inplace=True)
 df.corr()
 sns.heatmap(data=df.corr(), annot = True, cmap="viridis")
+```
 <img width="633" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/96ec9969-c4ba-48e1-83f0-b6e992356a24">
 
+```
 # find outlier values which extends the upper limit in both age and hours-per-week columns
 # age
 plt.figure(figsize=(10,6))
@@ -211,8 +213,10 @@ sns.boxplot(data=df.age,whis=1.5) #whis=1.5
 plt.subplot(1,2,2)
 sns.histplot(data=df.age,bins= 10);
 
+```
 <img width="725" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/2900e4b2-13b8-4a42-aa19-ab96a693a746">
 
+```
 df[df.age > 78]
 
 # hours-per-week
@@ -222,9 +226,10 @@ sns.boxplot(data=df["hours-per-week"],whis=3)
 plt.subplot(1,2,2)
 sns.histplot(data=df["hours-per-week"],bins=30);
 
-
+```
 <img width="664" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/e87c684a-4bd1-4640-b720-824a9d739ce2">
 
+```
 df[df["hours-per-week"] > 79]
 
 df[df["hours-per-week"] > 60][["marital-status","race"]]
@@ -237,9 +242,10 @@ for feature in df.select_dtypes('number').columns:
     index+=1
     plt.subplot(2,3,index)
     sns.boxplot(x=feature,data=df,whis=1.5)
-
+```
 <img width="739" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/1c4665c3-46c7-4d40-bc00-8a8930f4b2ea">
 
+```
 index=0
 plt.figure(figsize=(20,40))
 for feature in df.select_dtypes('number').columns:
@@ -249,9 +255,11 @@ for feature in df.select_dtypes('number').columns:
     index+=1
     plt.subplot(6,2,index)
     sns.histplot(x=feature,data=df)
+
+```
 <img width="714" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/191023b9-0b8b-48f8-9f9a-4ca721877cff"> <img width="731" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/9dd59faf-aee2-411a-8e1b-1b4c2d47fc44">  <img width="724" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/60d7fef8-b5e6-4a35-9848-23aa825614bc">
 
-
+```
 # After looking at the outliers you can drop the rows which actually does not make any sense.
 df[(df.age > 78) & (df["hours-per-week"] > 55)]
 drop_index = df[(df.age > 78) & (df["hours-per-week"] > 55)].index
@@ -262,8 +270,10 @@ df.drop(index= drop_index, inplace=True)
 # How many of each race are represented in this dataset?
 sns.countplot(x = "race", data=df);
 
+```
 <img width="396" alt="image" src="https://github.com/tuerkerme/Python_based_income_analysis/assets/149696414/5676e89c-0c23-4c20-8fa6-f16479621b50">
 
+```
 #What is the average age of men/women?
 df[df.sex == "Male"]["age"].mean()
 
